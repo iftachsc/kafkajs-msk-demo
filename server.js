@@ -1,11 +1,32 @@
 const kafka = require('./kafka')
+const topic = process.env.TOPIC
 
 const main = async () => {
     try {
         const producer = kafka.producer()
+        const admin = kafka.admin()
+
         await producer.connect()
+        await admin.connect()
+
+        const topics = await admin.listTopics()
+        if(!topics.includes(topic)){
+          admin.createTopics({
+            validateOnly: true,
+            waitForLeaders: false,
+            timeout: 200,
+            topics: [{
+              topic: topic,
+              numPartitions: 1, // default: 1
+              replicationFactor: 1, //default: 1
+              replicaAssignment: [],  // Example: [{ partition: 0, replicas: [0,1,2] }] - default: []
+              configEntries: []    // Example: [{ name: 'cleanup.policy', value: 'compact' }] - default: []
+          }],
+          })
+        }
+        
         const responses = await producer.send({
-          topic: process.env.TOPIC,
+          topic: topic,
           messages: [{
             // Name of the published package as key, to make sure that we process events in order
             key: 'key',
