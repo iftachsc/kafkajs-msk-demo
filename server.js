@@ -8,7 +8,46 @@ function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
 }
 
+function genMessage() {
+  return {
+    topic: topic,
+    messages: Array.from({length: parseInt(numMessages)}, (x,i) => {
+      return {
+      // Name of the published package as key, to make sure that we process events in order
+        key: (i%2).toString(),
 
+      // The message value is just bytes to Kafka, so we need to serialize our JavaScript
+      // object to a JSON string. Other serialization methods like Avro are available.
+        value: JSON.stringify({
+          given: 'iftach',
+          mid: 'johny',
+          surnane: 'schonbaum'
+        })
+      }
+    }),
+    acks: 0,
+    compression: CompressionTypes.None
+  }
+}
+
+function genBatch() {
+  return {
+    topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
+      return {
+        topic: topic,
+        messages: [{
+          key: (i%2).toString(),
+          value: JSON.stringify({
+            given: 'iftach',
+            mid: 'johny',
+            surnane: 'schonbaum'
+          })
+        }]
+    }),
+    acks: 0,
+    compression: CompressionTypes.None
+  }
+}
 
 const main = async () => {
     try {
@@ -50,26 +89,7 @@ const main = async () => {
         console.log("sending "+numMessages+" messagesx")
 
         
-        const responses = await producer.sendBatch({
-          //topic: topic,
-          topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
-            return {
-            // Name of the published package as key, to make sure that we process events in order
-              key: (i%2).toString(),
-              topic: topic,
-    
-            // The message value is just bytes to Kafka, so we need to serialize our JavaScript
-            // object to a JSON string. Other serialization methods like Avro are available.
-              value: JSON.stringify({
-                given: 'iftach',
-                mid: 'johny',
-                surnane: 'schonbaum'
-              })
-            }
-          }),
-          acks: 0,
-          compression: CompressionTypes.None
-        })
+        const responses = await producer.send(genBatch())
     
         console.log('Published message', { responses })
       } catch (error) {
