@@ -15,6 +15,7 @@ const main = async () => {
         console.log(topics)
         console.log(topics.includes(topic))
         if(topics.includes(topic)){
+          console.log("deleting")
           await admin.deleteTopics({
             topics: [topic],
             timeout: 10000,
