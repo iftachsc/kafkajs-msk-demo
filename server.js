@@ -13,6 +13,7 @@ const main = async () => {
         
         const topics = await admin.listTopics()
         console.log(topics)
+        console.log(topics.includes(topic))
         if(topics.includes(topic)){
           await admin.deleteTopics({
             topics: [topic],
