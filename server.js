@@ -2,6 +2,11 @@ const { CompressionTypes } = require('kafkajs')
 const kafka = require('./kafka')
 const topic = process.env.TOPIC
 
+function sleep(millis) {
+  return new Promise(resolve => setTimeout(resolve, millis));
+}
+
+
 const main = async () => {
     try {
         const producer = kafka.producer()
@@ -21,10 +26,8 @@ const main = async () => {
             timeout: 10000,
           })
         }
-
-        const response = await admin.fetchTopicMetadata({topic: [topic]})
-        console.log(response)
-      
+        await sleep(5000)
+        
         
         await admin.createTopics({
             validateOnly: false,
