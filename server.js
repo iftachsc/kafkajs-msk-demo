@@ -31,6 +31,7 @@ function genMessage() {
 }
 
 function genBatch() {
+  console.log(topic)
   return {
     topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
       return {
