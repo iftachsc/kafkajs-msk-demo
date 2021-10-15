@@ -7,6 +7,7 @@ function sleep(millis) {
 }
 
 
+
 const main = async () => {
     try {
         const producer = kafka.producer()
@@ -16,32 +17,32 @@ const main = async () => {
         await producer.connect()
         await admin.connect()
         
-        const topics = await admin.listTopics()
-        console.log(topics)
-        console.log(topics.includes(topic))
-        if(topics.includes(topic)){
-          console.log("deleting")
-          await admin.deleteTopics({
-            topics: [topic],
-            timeout: 10000,
-          })
-        }
-        await sleep(5000)
+        // const topics = await admin.listTopics()
+        // console.log(topics)
+        // console.log(topics.includes(topic))
+        // if(topics.includes(topic)){
+        //   console.log("deleting")
+        //   await admin.deleteTopics({
+        //     topics: [topic],
+        //     timeout: 10000,
+        //   })
+        // }
+        // await sleep(5000)
         
         
-        await admin.createTopics({
-            validateOnly: false,
-            waitForLeaders: true,
-            timeout: 5000, //default 5000
-            topics: [{
-              topic: topic,
-              numPartitions: 2, // default: 1
-              replicationFactor: 1, //default: 1
-              replicaAssignment: [],  // Example: [{ partition: 0, replicas: [0,1,2] }] - default: []
-              configEntries: []    // Example: [{ name: 'cleanup.policy', value: 'compact' }] - default: []
-          }],
-        })
-        admin.disconnect()
+        // await admin.createTopics({
+        //     validateOnly: false,
+        //     waitForLeaders: true,
+        //     timeout: 5000, //default 5000
+        //     topics: [{
+        //       topic: topic,
+        //       numPartitions: 2, // default: 1
+        //       replicationFactor: 1, //default: 1
+        //       replicaAssignment: [],  // Example: [{ partition: 0, replicas: [0,1,2] }] - default: []
+        //       configEntries: []    // Example: [{ name: 'cleanup.policy', value: 'compact' }] - default: []
+        //   }],
+        // })
+        // admin.disconnect()
 
         console.log("admin finished")
         const responses = await producer.send({
