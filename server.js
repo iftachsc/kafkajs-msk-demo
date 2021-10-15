@@ -1,6 +1,8 @@
 const { CompressionTypes } = require('kafkajs')
 const kafka = require('./kafka')
 const topic = process.env.TOPIC
+const numMessages = process.env.NUM_MESSAGES
+
 
 function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
@@ -47,7 +49,7 @@ const main = async () => {
         console.log("admin finished")
         const responses = await producer.send({
           topic: topic,
-          messages: Array.from({length: 50}, (x,i) => {
+          messages: Array.from({length: parseInt(numMessages)}, (x,i) => {
             return {
             // Name of the published package as key, to make sure that we process events in order
               key: (i%2).toString(),
