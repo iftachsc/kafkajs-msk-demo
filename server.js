@@ -21,6 +21,10 @@ const main = async () => {
             timeout: 10000,
           })
         }
+
+        const response = await admin.fetchTopicMetadata({topic: [topic]})
+        console.log(response)
+      
         
         await admin.createTopics({
             validateOnly: false,
