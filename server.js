@@ -43,6 +43,7 @@ function genBatch() {
             surnane: 'schonbaum'
           })
         }]
+      }
     }),
     acks: 0,
     compression: CompressionTypes.None
