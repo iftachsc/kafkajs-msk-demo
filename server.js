@@ -47,10 +47,12 @@ const main = async () => {
         // admin.disconnect()
 
         console.log("admin finished")
-        console.log("sending "+numMessages+" messages")
-        const responses = await producer.send({
+        console.log("sending "+numMessages+" messagesx")
+
+        
+        const responses = await producer.sendBatch({
           topic: topic,
-          messages: Array.from({length: parseInt(numMessages)}, (x,i) => {
+          topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
             return {
             // Name of the published package as key, to make sure that we process events in order
               key: (i%2).toString(),
