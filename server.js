@@ -31,7 +31,6 @@ function genMessage() {
 }
 
 function genBatch() {
-  console.log(topic)
   return {
     topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
       return {
@@ -91,7 +90,7 @@ const main = async () => {
         console.log("sending "+numMessages+" messagesx")
 
         
-        const responses = await producer.send(genBatch())
+        const responses = await producer.sendBatch(genBatch())
     
         console.log('Published message', { responses })
       } catch (error) {
