@@ -47,6 +47,7 @@ const main = async () => {
         // admin.disconnect()
 
         console.log("admin finished")
+        console.log("sending "+numMessages+" messages")
         const responses = await producer.send({
           topic: topic,
           messages: Array.from({length: parseInt(numMessages)}, (x,i) => {
