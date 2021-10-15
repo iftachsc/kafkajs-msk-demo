@@ -1,3 +1,4 @@
+const { CompressionTypes } = require('kafkajs')
 const kafka = require('./kafka')
 const topic = process.env.TOPIC
 
@@ -6,38 +7,50 @@ const main = async () => {
         const producer = kafka.producer()
         const admin = kafka.admin()
 
+        console.log("admin starts")
         await producer.connect()
         await admin.connect()
-
+        
         const topics = await admin.listTopics()
-        if(!topics.includes(topic)){
-          admin.createTopics({
-            validateOnly: true,
-            waitForLeaders: false,
-            timeout: 200,
+        
+        if(topics.includes(topic)){
+          await admin.deleteTopics({
+            topics: [topic],
+          })
+        }
+        await admin.createTopics({
+            validateOnly: false,
+            waitForLeaders: true,
+            timeout: 5000, //default 5000
             topics: [{
               topic: topic,
-              numPartitions: 1, // default: 1
+              numPartitions: 2, // default: 1
               replicationFactor: 1, //default: 1
               replicaAssignment: [],  // Example: [{ partition: 0, replicas: [0,1,2] }] - default: []
               configEntries: []    // Example: [{ name: 'cleanup.policy', value: 'compact' }] - default: []
           }],
-          })
-        }
+        })
+        admin.disconnect()
         
+        console.log("admin finished")
         const responses = await producer.send({
           topic: topic,
-          messages: [{
+          messages: Array.from({length: 50}, (x,i) => {
+            return {
             // Name of the published package as key, to make sure that we process events in order
-            key: 'key',
+              key: (i%2).toString(),
     
             // The message value is just bytes to Kafka, so we need to serialize our JavaScript
             // object to a JSON string. Other serialization methods like Avro are available.
-            value: JSON.stringify({
-              given: 'iftach',
-              surnane: 'schonbaum'
-            })
-          }]
+              value: JSON.stringify({
+                given: 'iftach',
+                mid: 'johny',
+                surnane: 'schonbaum'
+              })
+            }
+          }),
+          acks: 0,
+          compression: CompressionTypes.None
         })
     
         console.log('Published message', { responses })
