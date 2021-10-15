@@ -51,11 +51,12 @@ const main = async () => {
 
         
         const responses = await producer.sendBatch({
-          topic: topic,
+          //topic: topic,
           topicMessages: Array.from({length: parseInt(numMessages)}, (x,i) => {
             return {
             // Name of the published package as key, to make sure that we process events in order
               key: (i%2).toString(),
+              topic: topic,
     
             // The message value is just bytes to Kafka, so we need to serialize our JavaScript
             // object to a JSON string. Other serialization methods like Avro are available.
