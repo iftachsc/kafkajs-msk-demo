@@ -16,6 +16,7 @@ const main = async () => {
         if(topics.includes(topic)){
           await admin.deleteTopics({
             topics: [topic],
+            timeout: 10000
           })
         }
         await admin.createTopics({
