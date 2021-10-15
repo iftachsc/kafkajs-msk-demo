@@ -12,7 +12,7 @@ const main = async () => {
         await admin.connect()
         
         const topics = await admin.listTopics()
-        
+        console.log(topics)
         if(topics.includes(topic)){
           await admin.deleteTopics({
             topics: [topic],
@@ -31,7 +31,7 @@ const main = async () => {
           }],
         })
         admin.disconnect()
-        
+
         console.log("admin finished")
         const responses = await producer.send({
           topic: topic,
