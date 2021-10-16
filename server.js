@@ -81,7 +81,7 @@ function genMessage() {
     messages: Array.from({length: parseInt(numMessages)}, (x,i) => {
       return {
       // Name of the published package as key, to make sure that we process events in order
-        key: (i%2).toString(),
+        key: (i%3).toString(),
 
       // The message value is just bytes to Kafka, so we need to serialize our JavaScript
       // object to a JSON string. Other serialization methods like Avro are available.
