@@ -89,7 +89,7 @@ function genMessage() {
       }
     }),
     acks: 0,
-    compression: CompressionTypes.LZ4
+    compression: CompressionTypes.ZSTD
   }
 }
 
