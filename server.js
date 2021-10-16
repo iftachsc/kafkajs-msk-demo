@@ -21,13 +21,77 @@ function genMessage() {
         value: JSON.stringify({
           given: 'iftach',
           mid: 'johny',
-          surnane: 'schonbaum'
+          surnane: 'schonbaum',
+          address: '10th helsinki str. tel aviv.',
+          country: 'israel',
+          age: 123,
+          profession: 'shoe maker',
+          family: [
+            {
+              given: 'yoav',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '10th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            },
+            {
+              given: 'roy',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '19th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            },
+            {
+              given: 'margaret',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '19th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            },
+            {
+              given: 'shlomo',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '19th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            },
+            {
+              given: 'shlomo',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '19th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            },
+            {
+              given: 'shlomo',
+              mid: 'johny',
+              surnane: 'schonbaum',
+              address: '19th helsinki str. tel aviv.',
+              country: 'israel',
+              age: 123,
+              profession: 'shoe maker'
+            }
+          ]
         })
       }
     }),
     acks: 0,
     compression: CompressionTypes.None
   }
+}
+
+function bytesLength(str) {
+  return Buffer.byteLength(str, "utf-8");
 }
 
 function genBatch() {
@@ -86,8 +150,9 @@ const main = async () => {
         // })
         // admin.disconnect()
 
+        
         console.log("admin finished")
-        console.log("sending "+numMessages+" messagesx")
+        console.log("sending "+numMessages+" messages")
 
         const responses = await producer.send(genMessage())
     
