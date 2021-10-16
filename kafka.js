@@ -1,7 +1,7 @@
 const { Kafka } = require('kafkajs')
 const { CompressionTypes, CompressionCodecs } = require('kafkajs')
 const LZ4 = require('kafkajs-lz4')
-const ZstdCodec = require('kafkajs/zstd')
+//const ZstdCodec = require('kafkajs/zstd')
 
 
 const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env
@@ -10,7 +10,7 @@ const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env
 //const ssl = !!sasl
 
 CompressionCodecs[CompressionTypes.LZ4] = new LZ4().codec
-CompressionCodecs[CompressionTypes.ZSTD] = ZstdCodec()
+//CompressionCodecs[CompressionTypes.ZSTD] = ZstdCodec()
 
 // This creates a client instance that is configured to connect to the Kafka broker provided by
 // the environment variable KAFKA_BOOTSTRAP_SERVER
