@@ -1,7 +1,7 @@
 const { Kafka } = require('kafkajs')
 const { CompressionTypes, CompressionCodecs } = require('kafkajs')
 const LZ4 = require('kafkajs-lz4')
-const ZstdCodec = require('@kafkajs/zstd')
+const ZstdCodec = require('kafkajs/zstd')
 
 
 const { KAFKA_USERNAME: username, KAFKA_PASSWORD: password } = process.env
