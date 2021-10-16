@@ -17,6 +17,7 @@ CompressionCodecs[CompressionTypes.LZ4] = new LZ4().codec
 const kafka = new Kafka({
   clientId: 'iftach-demo',
   brokers: ['b-2.demo-cluster-1.ddj69n.c13.kafka.us-east-1.amazonaws.com:9094'],
+  ssl: true,
 })
 
 
