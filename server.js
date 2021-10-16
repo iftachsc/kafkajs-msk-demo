@@ -89,10 +89,11 @@ const main = async () => {
         console.log("admin finished")
         console.log("sending "+numMessages+" messagesx")
 
-        
-        const responses = await producer.sendBatch(genBatch())
+        const responses = await producer.send(genMessage())
     
+        console.log(responses.length)
         console.log('Published message', { responses })
+        producer.disconnect();
       } catch (error) {
         console.error('Error publishing message', error)
       }
