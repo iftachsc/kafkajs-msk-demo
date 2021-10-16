@@ -16,7 +16,7 @@ CompressionCodecs[CompressionTypes.LZ4] = new LZ4().codec
 // the environment variable KAFKA_BOOTSTRAP_SERVER
 const kafka = new Kafka({
   clientId: 'iftach-demo',
-  brokers: ['b-2.demo-cluster-1.ddj69n.c13.kafka.us-east-1.amazonaws.com:9094'],
+  brokers: ['b-1.demo-cluster-1.ddj69n.c13.kafka.us-east-1.amazonaws.com:9094','b-2.demo-cluster-1.ddj69n.c13.kafka.us-east-1.amazonaws.com:9094'],
   ssl: true,
 })
 
