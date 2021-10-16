@@ -8,6 +8,73 @@ function sleep(millis) {
   return new Promise(resolve => setTimeout(resolve, millis));
 }
 
+function singleKbMessage() {
+  return JSON.stringify({
+    given: 'iftach',
+    mid: 'johny',
+    surnane: 'schonbaum',
+    address: '10th helsinki str. tel aviv.',
+    country: 'israel',
+    age: 123,
+    profession: 'shoe maker',
+    family: [
+      {
+        given: 'yoav',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '10th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      },
+      {
+        given: 'roy',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '19th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      },
+      {
+        given: 'margaret',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '19th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      },
+      {
+        given: 'shlomo',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '19th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      },
+      {
+        given: 'shlomo',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '19th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      },
+      {
+        given: 'shlomo',
+        mid: 'johny',
+        surnane: 'schonbaum',
+        address: '19th helsinki str. tel aviv.',
+        country: 'israel',
+        age: 123,
+        profession: 'shoe maker'
+      }
+    ]
+  })
+}
 function genMessage() {
   return {
     topic: topic,
@@ -18,71 +85,7 @@ function genMessage() {
 
       // The message value is just bytes to Kafka, so we need to serialize our JavaScript
       // object to a JSON string. Other serialization methods like Avro are available.
-        value: JSON.stringify({
-          given: 'iftach',
-          mid: 'johny',
-          surnane: 'schonbaum',
-          address: '10th helsinki str. tel aviv.',
-          country: 'israel',
-          age: 123,
-          profession: 'shoe maker',
-          family: [
-            {
-              given: 'yoav',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '10th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            },
-            {
-              given: 'roy',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '19th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            },
-            {
-              given: 'margaret',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '19th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            },
-            {
-              given: 'shlomo',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '19th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            },
-            {
-              given: 'shlomo',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '19th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            },
-            {
-              given: 'shlomo',
-              mid: 'johny',
-              surnane: 'schonbaum',
-              address: '19th helsinki str. tel aviv.',
-              country: 'israel',
-              age: 123,
-              profession: 'shoe maker'
-            }
-          ]
-        })
+        value: singleKbMessage()
       }
     }),
     acks: 0,
@@ -101,11 +104,7 @@ function genBatch() {
         topic: topic,
         messages: [{
           key: (i%2).toString(),
-          value: JSON.stringify({
-            given: 'iftach',
-            mid: 'johny',
-            surnane: 'schonbaum'
-          })
+          value: singleKbMessage()
         }]
       }
     }),
@@ -152,9 +151,12 @@ const main = async () => {
 
         
         console.log("admin finished")
-        console.log("sending "+numMessages+" messages")
+        console.log("sending "+numMessages+" message/s each request")
 
-        const responses = await producer.send(genMessage())
+        while(true) {
+          await producer.send(genMessage())
+          await sleep(50)
+        }
     
         console.log(responses.length)
         console.log('Published message', { responses })
